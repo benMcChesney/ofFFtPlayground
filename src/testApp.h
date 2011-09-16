@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "ofxFft.h"
 #include "RadialBar.h"
+#include "FftRange.h"
+#include "RadialFft.h"
 
 #define MIC 0
 #define NOISE 1
@@ -11,7 +13,7 @@
 class testApp : public ofBaseApp {
 public:
 	void setup();
-    void update() ; 
+    void update() ;
 	void plot(float* array, int length, float scale, float offset);
 	void audioReceived(float* input, int bufferSize, int nChannels);
 	void draw();
@@ -30,8 +32,18 @@ public:
 	int spectrogramOffset;
 
 	int mode;
+
+//     vector<RadialBar> points;
+//     FftRange range ;
+
+
+//     float globalCenterOffset ;
+//     float globalExtrusion ;
+//     float globalBarWidth ;
     
-     vector<RadialBar> points; 
-  
+     RadialFft treble ; 
     
+     bool drawBothSides ; 
+
+
 };

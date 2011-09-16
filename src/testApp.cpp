@@ -1,9 +1,13 @@
 #include "testApp.h"
 
+#include "ofxSimpleGuiToo.h"
+
+
 void testApp::setup() {
-	plotHeight = 128;
+	plotHeight = 65;
 	bufferSize = 512;
 
+    drawBothSides = false ; 
 	fft = ofxFft::create(bufferSize, OF_FFT_WINDOW_HAMMING);
 	// To use FFTW, try:
 	// fft = ofxFft::create(bufferSize, OF_FFT_WINDOW_HAMMING, OF_FFT_FFTW);
@@ -28,95 +32,89 @@ void testApp::setup() {
 	appHeight = ofGetHeight();
 
 	ofBackground(0, 0, 0);
-    
-    const int len = fft->getBinSize() ;
-    
-    
-    float barLength = 600.0f ; 
-    float barOffset = ( ofGetWidth() +- barLength ) / 2 ;
-    float xIncrement = barLength / (float) len ; 
-    
-    float radius = 65.0f ; 
-    ofVec2f offset = ofVec2f( ofGetWidth() /2 , ofGetHeight() /2 ) ; 
-    float thetaStep = TWO_PI / (float) len ; 
-    
-    
-    //p.x = Math.cos(i * anglePer) * 550;
-    //p.z = Math.sin(i * anglePer) * 550;
-    
-    
-    for ( int i = 0 ; i < len ; i++ ) 
-    {
-        
-        float theta = thetaStep * (float) i ; 
-        ofVec3f newPoint = ofVec3f ( cos( theta ) * radius , sin ( theta ) * radius , 0 ) ; 
-        RadialBar rb = RadialBar() ; 
-        rb.position = newPoint ; 
-        rb.theta = theta ; 
-        rb.startDistance = radius ; 
-        rb.extrusion = 50.0f ; 
-        points.push_back( rb ) ; 
-        // points.push_back ( ofVec3f( barOffset + xIncrement * i , 0 , 0 ) ) ; 
-    }
 
+    const int len = fft->getBinSize() ;
+
+    //Gui Stuff
+    FftRange r = FftRange( 0, 256, 256 ); 
+    treble = RadialFft( 50.0f, 300.0f, 6.0f, ofVec2f( ofGetWidth() /2 , ofGetHeight()/2 ) , r ) ;
+    
+    gui.addTitle("FftRange");
+    //gui.addPage("Custom Page").setXMLName("settings.xml");
+    gui.addFPSCounter();
+    //gui.addSlider("myInt2", myInt2, 3, 8);
+	gui.addSlider("range_start", treble.range.startIndex , 0 , len );
+	gui.addSlider("range_end", treble.range.endIndex , 1 , len-1 );
+
+
+	  ofVec3f position ;          //position
+    float theta ;               //angle from center
+    float startDistance ;       //distance to start drawing from center
+    float extrusion ;
+
+    //globalCenterOffset = radius ;
+    //globalExtrusion = 50.0f ;
+	gui.addTitle( "RadialBar Settings") ;
+	gui.addSlider ( "centerOffset" , treble.globalCenterOffset , 0.0f , 250.0f ) ;
+	gui.addSlider ( "extrustionScale" , treble.globalExtrusion , 1.0f , 1200.0f ) ;
+	gui.addSlider ( "maxExtrustion" , treble.range.maxExtrusion , 20.0f , 300.0f ) ;
+	gui.addSlider ( "barWidth" , treble.globalBarWidth , 1.0f , 20.0f ) ;
+    gui.addToggle ( "drawBothSides" , drawBothSides ) ; 
+	gui.loadFromXML();
+	gui.show() ;
+
+    ofSetFrameRate( 60 ) ; 
 }
 
 
-void testApp::draw() {
-	ofSetColor(0xffffff);
+void testApp::update()
+{
+    float * amplitudes = fft->getAmplitude() ;
+    treble.update( amplitudes ) ; 
+}
+
+
+void testApp::draw() 
+{
+	ofSetHexColor(0xffffff);
 	ofPushMatrix();
-	ofTranslate(16, 16);
+	ofTranslate(35, ofGetHeight() + plotHeight * -2.75 );
 	ofDrawBitmapString("Time Domain", 0, 0);
 	plot(audioInput, bufferSize, plotHeight / 2, 0);
 	ofTranslate(0, plotHeight + 16);
 	ofDrawBitmapString("Frequency Domain", 0, 0);
+
+	//Draw Range
+	const float binLength = (float)(fft->getBinSize()) ;
+	ofEnableAlphaBlending() ;
+	ofSetColor ( 255 , 0 , 0 , 125 ) ;
+	ofFill() ;
+
+    //for int i = 0 , for each range
+	ofRect ( (float)treble.range.startIndex/binLength * bufferSize , (float)treble.range.numIndicies/binLength * bufferSize , plotHeight) ;
+	ofDisableAlphaBlending() ;
+
+	ofSetColor ( 255 , 255 , 255 ) ;
+
+	//ofNoFill() ;
+	ofFill() ;
 	fft->draw(0, 0, fft->getSignalSize(), plotHeight);
-	ofTranslate(0, plotHeight + 16);
+	ofTranslate( bufferSize + 5 , -plotHeight - 16 );
 	spectrogram.update();
-	spectrogram.draw(0, 0);
+	spectrogram.draw(0, 0, bufferSize , plotHeight );
 	ofPopMatrix();
 	string msg = ofToString((int) ofGetFrameRate()) + " fps";
-    
-    const int len = points.size() ; 
-    ofSetColor ( 255.0f , 255.0f , 255.0f ) ; 
-    
-    ofEnableSmoothing() ; 
-    
-    
-    
-    for ( int i = 0 ; i < len ; i++ ) 
-    {
-        ofPushMatrix() ; 
-        ofTranslate( ofGetWidth() / 2 + points[i].position.x , ofGetHeight() * .75 +  points[i].position.y ) ; 
-        ofRotate( ofRadToDeg( points[i].theta ) - 90  ) ; 
-        ofRect (  0 , 0 , 2.0f ,  points[i].extrusion ) ; 
-        ofPopMatrix() ; 
-    }   
-    
-    ofDrawBitmapString ( ofToString( (int) ofGetFrameRate() ) , 15, ofGetHeight() +- 35 ) ; 
-    
-	ofDrawBitmapString(msg, appWidth - 80, appHeight - 20);
+
+    ofSetColor ( 255.0f , 255.0f , 255.0f ) ;
+
+    ofEnableSmoothing() ;
+    treble.draw( drawBothSides ) ; 
+
+    //ofFill() ;
+    ofSetColor ( 255 , 255 , 255 )  ;
+	gui.draw() ;
 }
 
-void testApp::update(){
-    
-  //  const int len = points.size() ; 
-    
-    float * amplitudes = fft->getAmplitude() ;
-    const int len = fft->getBinSize() ; 
-    
-	for (int i = 0; i < len ; i++)
-    {
-		//ofVertex(i, amplitudes[i]);
-        points[i].extrusion = ofNoise ( ofGetElapsedTimef() + (float)i ) * 35.0f + amplitudes[i] * 40.0f ; 
-    }
-    
-    
-//    for ( int i = 0 ; i < len ; i++ ) 
-//    {
-//        points[i].extrusion =  ofNoise ( ofGetElapsedTimef() + (float)i ) * 75.0f ;
-  //  }
-}
 
 void testApp::plot(float* array, int length, float scale, float offset) {
 	ofNoFill();
@@ -163,5 +161,10 @@ void testApp::keyPressed(int key) {
 	case 's':
 		mode = SINE;
 		break;
+
+    case 'g' :
+    case 'G' :
+        gui.toggleDraw() ;
+        break ;
 	}
 }
