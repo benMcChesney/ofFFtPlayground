@@ -4,10 +4,10 @@
 
 
 void testApp::setup() {
-	plotHeight = 65;
+	plotHeight = 45;
 	bufferSize = 512;
 
-    drawBothSides = false ; 
+    drawBothSides = false ;
 	fft = ofxFft::create(bufferSize, OF_FFT_WINDOW_HAMMING);
 	// To use FFTW, try:
 	// fft = ofxFft::create(bufferSize, OF_FFT_WINDOW_HAMMING, OF_FFT_FFTW);
@@ -36,52 +36,86 @@ void testApp::setup() {
     const int len = fft->getBinSize() ;
 
     //Gui Stuff
-    FftRange r = FftRange( 0, 256, 256 ); 
-    treble = RadialFft( 50.0f, 300.0f, 6.0f, ofVec2f( ofGetWidth() /2 , ofGetHeight()/2 ) , r ) ;
-    
-    gui.addTitle("FftRange");
-    //gui.addPage("Custom Page").setXMLName("settings.xml");
-    gui.addFPSCounter();
-    //gui.addSlider("myInt2", myInt2, 3, 8);
-	gui.addSlider("range_start", treble.range.startIndex , 0 , len );
-	gui.addSlider("range_end", treble.range.endIndex , 1 , len-1 );
+    FftRange r = FftRange( 0, 256, 256 );
+
+    for ( int i = 0 ; i < 4 ; i++ )
+    {
+        ofColor color ;
+        //color.fromHex( ofRandom( 0xFFFFFFF ) ) ;
+        color.setHex( ofRandom( 0x111111 , 0xFFFFFFF ) ) ;
+        visuals.push_back( RadialFft( 50.0f, 300.0f, 6.0f, ofVec2f( ofGetWidth() /2 , ofGetHeight()/2 ) , r ,color ) ) ;
+    }
+   // treble = RadialFft( 50.0f, 300.0f, 6.0f, ofVec2f( ofGetWidth() /2 , ofGetHeight()/2 ) , r ) ;
 
 
-	  ofVec3f position ;          //position
-    float theta ;               //angle from center
-    float startDistance ;       //distance to start drawing from center
-    float extrusion ;
+    for ( int i = 0 ; i < visuals.size() ; i++ )
+    {
 
-    //globalCenterOffset = radius ;
-    //globalExtrusion = 50.0f ;
-	gui.addTitle( "RadialBar Settings") ;
-	gui.addSlider ( "centerOffset" , treble.globalCenterOffset , 0.0f , 250.0f ) ;
-	gui.addSlider ( "extrustionScale" , treble.globalExtrusion , 1.0f , 1200.0f ) ;
-	gui.addSlider ( "maxExtrustion" , treble.range.maxExtrusion , 20.0f , 300.0f ) ;
-	gui.addSlider ( "barWidth" , treble.globalBarWidth , 1.0f , 20.0f ) ;
-    gui.addToggle ( "drawBothSides" , drawBothSides ) ; 
-	gui.loadFromXML();
-	gui.show() ;
+        gui.addPage("Visual"+ofToString(i)).setXMLName("visual"+ofToString(i)+".xml" ) ;
+        gui.addTitle("FftRange");
+        //gui.addPage("Custom Page").setXMLName("settings.xml");
 
-    ofSetFrameRate( 60 ) ; 
+        //gui.addSlider("myInt2", myInt2, 3, 8);
+        gui.addSlider("range_start",visuals[i].range.startIndex , 0 , len );
+        gui.addSlider("range_end", visuals[i].range.endIndex , 1 , len-1 );
+
+        gui.addTitle( "RadialBar Settings") ;
+        gui.addSlider ( "centerOffset" , visuals[i].globalCenterOffset , 0.0f , 250.0f ) ;
+        gui.addSlider ( "extrustionScale" , visuals[i].globalExtrusion , 1.0f , 1200.0f ) ;
+        gui.addSlider ( "maxExtrustion" , visuals[i].range.maxExtrusion , 20.0f , 300.0f ) ;
+        gui.addSlider ( "barWidth" , visuals[i].globalBarWidth , 1.0f , 20.0f ) ;
+
+        gui.addTitle( "Position + Color" ).setNewColumn(true);
+        gui.addSlider ( "x" , visuals[i].position.x , 0 , ofGetWidth() ) ;
+        gui.addSlider ( "y" , visuals[i].position.y , 0 , ofGetHeight() ) ;
+        gui.addToggle ( "Fill" , visuals[i].doFill ) ;
+        gui.addToggle ( "drawBothSides" , visuals[i].drawBothSides ) ;
+        //Color picker for gui ?
+        //gui.addColorPicker("BG Color", &aColor.r);
+        //work around for color picker
+        gui.addTitle ( "Color" ) ;
+        gui.addSlider ( "red" , visuals[i].red , 0 , 255 ) ;
+        gui.addSlider ( "green" , visuals[i].green, 0 , 255 ) ;
+        gui.addSlider ( "blue" , visuals[i].blue , 0 , 255 ) ;
+
+
+        //gui.addSlider ( "hexColor" , visuals[i].hexColor , 0x111111 , 0xFFFFFF ) ;
+
+
+
+        gui.loadFromXML();
+
+    }
+
+    //gui.addFPSCounter();
+    gui.show() ;
+
+   // ofSetFrameRate( 60 ) ;
+    ofSetCircleResolution( 180 ) ;
 }
 
 
 void testApp::update()
 {
     float * amplitudes = fft->getAmplitude() ;
-    treble.update( amplitudes ) ; 
+
+    for ( int i = 0 ; i < visuals.size() ; i++ )
+    {
+        visuals[i].update( amplitudes ) ; //push_back( RadialFft( 50.0f, 300.0f, 6.0f, ofVec2f( ofGetWidth() /2 , ofGetHeight()/2 ) , r ) ) ;
+    }
+    //treble.update( amplitudes ) ;
 }
 
 
-void testApp::draw() 
+void testApp::draw()
 {
+    int graphYOffset = 10 ;
 	ofSetHexColor(0xffffff);
 	ofPushMatrix();
-	ofTranslate(35, ofGetHeight() + plotHeight * -2.75 );
+	ofTranslate( ( ofGetWidth() +- bufferSize )/2 , ofGetHeight() + plotHeight * -3 + -3 * graphYOffset );
 	ofDrawBitmapString("Time Domain", 0, 0);
 	plot(audioInput, bufferSize, plotHeight / 2, 0);
-	ofTranslate(0, plotHeight + 16);
+	ofTranslate(0, plotHeight + graphYOffset );
 	ofDrawBitmapString("Frequency Domain", 0, 0);
 
 	//Draw Range
@@ -91,15 +125,20 @@ void testApp::draw()
 	ofFill() ;
 
     //for int i = 0 , for each range
-	ofRect ( (float)treble.range.startIndex/binLength * bufferSize , (float)treble.range.numIndicies/binLength * bufferSize , plotHeight) ;
+    float alpha = 255.0f / (float)visuals.size()  ;
+    float ySpacing = plotHeight / (float)visuals.size() ;
+    for ( int i = 0 ; i < visuals.size() ; i++ )
+    {
+        ofSetColor ( visuals[i].red , visuals[i].green , visuals[i].blue , 255 ) ;
+        ofRect ( (float)visuals[i].range.startIndex/binLength * bufferSize , ySpacing * i , (float)visuals[i].range.numIndicies/binLength * bufferSize , ySpacing ) ;
+    }
+
 	ofDisableAlphaBlending() ;
 
 	ofSetColor ( 255 , 255 , 255 ) ;
-
-	//ofNoFill() ;
 	ofFill() ;
 	fft->draw(0, 0, fft->getSignalSize(), plotHeight);
-	ofTranslate( bufferSize + 5 , -plotHeight - 16 );
+	ofTranslate( 0 ,  plotHeight + graphYOffset );
 	spectrogram.update();
 	spectrogram.draw(0, 0, bufferSize , plotHeight );
 	ofPopMatrix();
@@ -108,9 +147,12 @@ void testApp::draw()
     ofSetColor ( 255.0f , 255.0f , 255.0f ) ;
 
     ofEnableSmoothing() ;
-    treble.draw( drawBothSides ) ; 
 
-    //ofFill() ;
+    for ( int i = 0 ; i < visuals.size() ; i++ )
+    {
+        visuals[i].draw( ) ;
+    }
+
     ofSetColor ( 255 , 255 , 255 )  ;
 	gui.draw() ;
 }
@@ -151,20 +193,29 @@ void testApp::audioReceived(float* input, int bufferSize, int nChannels) {
 }
 
 void testApp::keyPressed(int key) {
-	switch (key) {
-	case 'm':
-		mode = MIC;
-		break;
-	case 'n':
-		mode = NOISE;
-		break;
-	case 's':
-		mode = SINE;
-		break;
 
-    case 'g' :
-    case 'G' :
-        gui.toggleDraw() ;
-        break ;
+    if(key>='0' && key<='9')
+    {
+		gui.setPage(key - '0');
+		gui.show();
+	}
+	else
+	{
+        switch (key)
+        {
+            //switching pages
+            case ' ': gui.toggleDraw(); break;
+            case '[': gui.prevPage(); break;
+            case ']': gui.nextPage(); break;
+            case 'p': gui.nextPageWithBlank(); break;
+
+            //FFT Mode
+            case 'm': mode = MIC; break;
+            case 'n': mode = NOISE; break;
+            case 's': mode = SINE; break;
+
+            case 'g' :
+            case 'G' : gui.toggleDraw() ; break ;
+        }
 	}
 }

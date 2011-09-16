@@ -7,21 +7,21 @@
 //
 
 
-#pragma once 
+#pragma once
 
 #include "ofMain.h"
 
-class RadialBar 
+class RadialBar
 {
-    
+
     public :
-    RadialBar() {} ; 
-    
+    RadialBar() {} ;
+
     ofVec3f position ;          //position
     float theta ;               //angle from center
     float startDistance ;       //distance to start drawing from center
     float extrusion ;           //distance drawn starting from startDistance
-    
-    vector<RadialBar> points; 
-    
+
+    vector<RadialBar> points;
+
 };

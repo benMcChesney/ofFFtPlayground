@@ -40,10 +40,11 @@ public:
 //     float globalCenterOffset ;
 //     float globalExtrusion ;
 //     float globalBarWidth ;
-    
-     RadialFft treble ; 
-    
-     bool drawBothSides ; 
+
+     //RadialFft treble ;
+
+     vector<RadialFft> visuals ;
+     bool drawBothSides ;
 
 
 };

@@ -1156,18 +1156,19 @@
 1219450688 source:c:\users\helios\documents\of_prerelease_v007_win_cb\addons\ofxfft\libs\kiss\kiss_fft.c
 	"_kiss_fft_guts.h"
 
-1316129132 source:c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\main.cpp
+1316192902 source:c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\main.cpp
 	"ofMain.h"
 	"testApp.h"
 	"ofAppGlutWindow.h"
 
-1316128783 c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\testapp.h
+1316193700 c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\testapp.h
 	"ofMain.h"
 	"ofxFft.h"
 	"RadialBar.h"
 	"FftRange.h"
+	"RadialFft.h"
 
-1316119701 c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\radialbar.h
+1316193987 c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\radialbar.h
 	"ofMain.h"
 
 1315333181 source:c:\users\helios\documents\of_prerelease_v007_win_cb\addons\ofxsimpleguitoo\examples\openframeworks\ofxsimpleguitoo example\src\main.cpp
@@ -1342,14 +1343,16 @@
 	<string>
 	<iostream>
 
-1316127482 c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\fftrange.h
+1316192902 c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\fftrange.h
 
-1316132356 source:c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\testapp.cpp
+1316200270 source:c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\testapp.cpp
 	"testApp.h"
 	"ofxSimpleGuiToo.h"
 
-1316132520 source:c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\radialfft.cpp
+1316200566 source:c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\radialfft.cpp
 	"RadialFft.h"
 
-1316132520 c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\radialfft.h
+1316200208 c:\users\helios\documents\of_prerelease_v007_win_cb\apps\examples\offftplayground\src\radialfft.h
+	"FftRange.h"
+	"RadialBar.h"
 
