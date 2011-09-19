@@ -3,15 +3,14 @@
 #include "ofxSimpleGuiToo.h"
 
 
-void testApp::setup() {
+void testApp::setup()
+{
 	plotHeight = 45;
 	bufferSize = 512;
 
-    drawBothSides = false ;
 	fft = ofxFft::create(bufferSize, OF_FFT_WINDOW_HAMMING);
 	// To use FFTW, try:
 	// fft = ofxFft::create(bufferSize, OF_FFT_WINDOW_HAMMING, OF_FFT_FFTW);
-
 	spectrogram.allocate(bufferSize, fft->getBinSize(), OF_IMAGE_GRAYSCALE);
 	memset(spectrogram.getPixels(), 0, (int) (spectrogram.getWidth() * spectrogram.getHeight()) );
 	spectrogramOffset = 0;
@@ -33,29 +32,37 @@ void testApp::setup() {
 
 	ofBackground(0, 0, 0);
 
+    //get number of bins
     const int len = fft->getBinSize() ;
 
-    //Gui Stuff
+    //Controls
+    
+    //set a default FftRange
     FftRange r = FftRange( 0, 256, 256 );
 
     for ( int i = 0 ; i < 4 ; i++ )
     {
+        //Generate a random color if none is found in XML
         ofColor color ;
-        //color.fromHex( ofRandom( 0xFFFFFFF ) ) ;
         color.setHex( ofRandom( 0x111111 , 0xFFFFFFF ) ) ;
         visuals.push_back( RadialFft( 50.0f, 300.0f, 6.0f, ofVec2f( ofGetWidth() /2 , ofGetHeight()/2 ) , r ,color ) ) ;
     }
-   // treble = RadialFft( 50.0f, 300.0f, 6.0f, ofVec2f( ofGetWidth() /2 , ofGetHeight()/2 ) , r ) ;
 
-
+    /*
+     This uses Memo Akten's ( https://github.com/memo , http://memo.tv )  ofxSimpleGuiToo
+     I really like how easy it is to use and that it automatically saves all the values to an XML file
+     
+     Below we create a GUI tool page for each of our visulizers so we can tweak parameters
+    */
+    
     for ( int i = 0 ; i < visuals.size() ; i++ )
     {
-
+        //Set the page name + xml name
         gui.addPage("Visual"+ofToString(i)).setXMLName("visual"+ofToString(i)+".xml" ) ;
+        
+        //Syntax for adding a float slider is:
+        //gui.addSlider ( string title , float targetFloat , float minValue, float maxValue ) ; 
         gui.addTitle("FftRange");
-        //gui.addPage("Custom Page").setXMLName("settings.xml");
-
-        //gui.addSlider("myInt2", myInt2, 3, 8);
         gui.addSlider("range_start",visuals[i].range.startIndex , 0 , len );
         gui.addSlider("range_end", visuals[i].range.endIndex , 1 , len-1 );
 
@@ -65,45 +72,44 @@ void testApp::setup() {
         gui.addSlider ( "maxExtrustion" , visuals[i].range.maxExtrusion , 20.0f , 300.0f ) ;
         gui.addSlider ( "barWidth" , visuals[i].globalBarWidth , 1.0f , 20.0f ) ;
 
+        //Create a new column
         gui.addTitle( "Position + Color" ).setNewColumn(true);
         gui.addSlider ( "x" , visuals[i].position.x , 0 , ofGetWidth() ) ;
         gui.addSlider ( "y" , visuals[i].position.y , 0 , ofGetHeight() ) ;
+        
+        //We can also add toggles
+        //gui.addToggle ( string title , bool targetBool ) ; 
         gui.addToggle ( "Fill" , visuals[i].doFill ) ;
         gui.addToggle ( "drawBothSides" , visuals[i].drawBothSides ) ;
-        //Color picker for gui ?
+        
         //gui.addColorPicker("BG Color", &aColor.r);
-        //work around for color picker
+        //I couldn't quite get the colorPicker to work, below is a workaround
         gui.addTitle ( "Color" ) ;
         gui.addSlider ( "red" , visuals[i].red , 0 , 255 ) ;
         gui.addSlider ( "green" , visuals[i].green, 0 , 255 ) ;
         gui.addSlider ( "blue" , visuals[i].blue , 0 , 255 ) ;
 
-
+        //This didn't work so well, produced rainbow colors when dragged due to rawHex changes
         //gui.addSlider ( "hexColor" , visuals[i].hexColor , 0x111111 , 0xFFFFFF ) ;
-
-
-
-        gui.loadFromXML();
-
     }
-
-    //gui.addFPSCounter();
+    
+    gui.loadFromXML();
     gui.show() ;
 
-   // ofSetFrameRate( 60 ) ;
+    ofSetFrameRate( 60 ) ;
     ofSetCircleResolution( 180 ) ;
 }
 
 
 void testApp::update()
 {
+    //Get amplitudes and pass them on to visuals
     float * amplitudes = fft->getAmplitude() ;
 
     for ( int i = 0 ; i < visuals.size() ; i++ )
     {
-        visuals[i].update( amplitudes ) ; //push_back( RadialFft( 50.0f, 300.0f, 6.0f, ofVec2f( ofGetWidth() /2 , ofGetHeight()/2 ) , r ) ) ;
+        visuals[i].update( amplitudes ) ;
     }
-    //treble.update( amplitudes ) ;
 }
 
 
@@ -155,6 +161,19 @@ void testApp::draw()
 
     ofSetColor ( 255 , 255 , 255 )  ;
 	gui.draw() ;
+    ofPushMatrix() ; 
+        ofTranslate( 15 , ofGetHeight() +- 75 ) ; 
+        ofDrawBitmapString( "G : Toggle GUI " , 0 , 0 ) ; 
+        ofTranslate( 0 , 15 ) ; 
+        ofDrawBitmapString( "A , M , N , S change the FFT Input " , 0 , 0 ) ; 
+        string curInput ;
+        if (mode == MIC) {	curInput = "Microphone" ; }
+        else if (mode == NOISE) { curInput = "Noise" ; }
+        else if (mode == SINE) { curInput = "Mouse" ;}
+        else if ( mode == ANIMATE ) {  curInput = "Time" ; }
+        ofTranslate( 0 , 15 ) ; 
+        ofDrawBitmapString( "Current Input is: " + curInput , 0 , 0 ) ; 
+    ofPopMatrix() ; 
 }
 
 
@@ -180,7 +199,10 @@ void testApp::audioReceived(float* input, int bufferSize, int nChannels) {
 	} else if (mode == SINE) {
 		for (int i = 0; i < bufferSize; i++)
 			audioInput[i] = sinf(PI * i * mouseX / appWidth);
-	}
+	} else if ( mode == ANIMATE ) {
+        for (int i = 0; i < bufferSize; i++)
+			audioInput[i] = sinf(PI * i * ( sin( ofGetElapsedTimef() * .5f ) * appWidth )    / appWidth);
+    }
 
 	fft->setSignal(audioInput);
 
@@ -213,6 +235,7 @@ void testApp::keyPressed(int key) {
             case 'm': mode = MIC; break;
             case 'n': mode = NOISE; break;
             case 's': mode = SINE; break;
+            case 'a': mode = ANIMATE ; break ;
 
             case 'g' :
             case 'G' : gui.toggleDraw() ; break ;

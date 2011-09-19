@@ -1,5 +1,13 @@
 #pragma once
 
+/*
+ 
+ This Example was originally created by Kyle McDonald ( http://kylemcdonald.net/ ) 
+ I ( Ben McChesney http://benmcchesney.com/blog ) just added some stuff to it later
+ Kyle did all the hard work and deserves all the credit for making an awesome easy to use addon ! :D
+ 
+ */
+
 #include "ofMain.h"
 #include "ofxFft.h"
 #include "RadialBar.h"
@@ -9,6 +17,7 @@
 #define MIC 0
 #define NOISE 1
 #define SINE 2
+#define ANIMATE 3
 
 class testApp : public ofBaseApp {
 public:
@@ -32,19 +41,8 @@ public:
 	int spectrogramOffset;
 
 	int mode;
-
-//     vector<RadialBar> points;
-//     FftRange range ;
-
-
-//     float globalCenterOffset ;
-//     float globalExtrusion ;
-//     float globalBarWidth ;
-
-     //RadialFft treble ;
-
-     vector<RadialFft> visuals ;
-     bool drawBothSides ;
-
+    
+    //Added after
+    vector<RadialFft> visuals ;     
 
 };

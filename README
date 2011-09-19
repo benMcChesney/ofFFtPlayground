@@ -1,0 +1,14 @@
+For this Example you will need
+There is a more detailed writeup available at benmcchesney.com/blog
+
+ofxFFT by Kyle McDonald
+http://code.google.com/p/kyle/downloads/list
+
+Some MSA Libs by Memo Akten
+https://github.com/memo/msalibs
+
+ofxMSAInteractiveObject
+ofxSimpleGuiToo
+
+OF Core : 
+ofxXmlSettings

@@ -1,6 +1,7 @@
 #ifndef FFTRANGE_H
 #define FFTRANGE_H
 
+//Really simple class to hold the FFT range values and update properly
 
 class FftRange
 {

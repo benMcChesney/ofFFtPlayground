@@ -20,12 +20,9 @@ class RadialFft
             position = pos ;
             range = r ;
 
-
-            color = _color ;
-            red = color.r ;
-            green = color.g ;
-            blue = color.b ;
-            //hexColor = color.getHex() ;
+            red = _color.r ;
+            green = _color.g ;
+            blue = _color.b ;
          }
 
         void setup( int numBins ) ;
@@ -39,11 +36,8 @@ class RadialFft
 
         bool drawBothSides ;
         bool doFill ;
-        //int hexColor ;
-        ofColor color ;
         int red , green, blue ;
         float meanAmplitude ;
-
 
         float globalCenterOffset ;
         float globalExtrusion ;

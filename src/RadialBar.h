@@ -22,6 +22,4 @@ class RadialBar
     float startDistance ;       //distance to start drawing from center
     float extrusion ;           //distance drawn starting from startDistance
 
-    vector<RadialBar> points;
-
 };
