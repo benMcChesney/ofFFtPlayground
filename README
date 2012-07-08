@@ -1,5 +1,7 @@
 For this Example you will need
-There is a more detailed writeup available at benmcchesney.com/blog
+There is a more detailed writeup available at http://www.benmcchesney.com/blog/2011/09/fft-visuals-in-open-frameworks/
+
+I have now included the addons to work with this version. You can find them inside the 'community_dependencies/' folder. I had to make a few adjustments to MSA libs for 0071.
 
 ofxFFT by Kyle McDonald
 http://code.google.com/p/kyle/downloads/list
