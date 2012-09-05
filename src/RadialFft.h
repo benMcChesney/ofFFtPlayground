@@ -7,7 +7,9 @@
 class RadialFft
 {
     public:
-        RadialFft();
+        RadialFft() { }
+        ~RadialFft( ) { }
+    
         RadialFft( float gco , float ge , float gbw , ofVec2f pos , FftRange r , ofColor _color )
         {
             doFill = false ;
@@ -20,23 +22,30 @@ class RadialFft
             position = pos ;
             range = r ;
 
-            red = _color.r ;
-            green = _color.g ;
-            blue = _color.b ;
+            color = _color ; 
          }
+    
+    //fromHsb (float hue, float saturation, float brightness, float alpha = limit());
+        float hue ;
+        float saturation ;
+        float brightness ;
+    
+        float amplitudeMultiplier ;
+    
+        float noiseTimeMultiplier ;
+        float noiseStrength ;
+        float noiseIndexMultiplier ; 
 
         void setup( int numBins ) ;
         void update( float * amplitudes ) ;
         void draw( ) ;
-
-        virtual ~RadialFft();
 
         vector<RadialBar> bars ;
         FftRange range ;
 
         bool drawBothSides ;
         bool doFill ;
-        int red , green, blue ;
+    ofColor color ; 
         float meanAmplitude ;
 
         float globalCenterOffset ;
@@ -44,6 +53,12 @@ class RadialFft
         float globalBarWidth ;
 
         ofVec2f position ;
+    
+    float hueFftMultiplier ;
+    
+        float lastAmplitude ;
+        float amplitudeDiffMultiplier ;
+        float ampltiudeDiff ; 
 
 
     protected:

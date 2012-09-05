@@ -13,6 +13,7 @@
 #include "RadialBar.h"
 #include "FftRange.h"
 #include "RadialFft.h"
+#include "ofxUI.h"
 
 #define MIC 0
 #define NOISE 1
@@ -39,10 +40,21 @@ public:
 
 	ofImage spectrogram;
 	int spectrogramOffset;
-
+    
 	int mode;
     
     //Added after
-    vector<RadialFft> visuals ;     
+//    vector<RadialFft> visuals ;
+    RadialFft radialFft;
+    
+    //ofxUI
+    ofxUICanvas *fftGUI;
+	void fftGUIEvent(ofxUIEventArgs &e) ;
+    
+    ofFbo screenFbo ;
+    float clearAlpha ;
+    
+    bool bGuiEnabled ; 
 
+    float amplitudeScale ;
 };

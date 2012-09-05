@@ -84,6 +84,42 @@
 
 /* Begin PBXFileReference section */
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
+		D9D7668F15F70CD9009B4CF0 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		D9D7679115F70CD9009B4CF0 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		D9D7679315F70CD9009B4CF0 /* ofxUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUI.h; sourceTree = "<group>"; };
+		D9D7679415F70CD9009B4CF0 /* ofxUI2DPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUI2DPad.h; sourceTree = "<group>"; };
+		D9D7679515F70CD9009B4CF0 /* ofxUIBiLabelSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIBiLabelSlider.h; sourceTree = "<group>"; };
+		D9D7679615F70CD9009B4CF0 /* ofxUIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIButton.h; sourceTree = "<group>"; };
+		D9D7679715F70CD9009B4CF0 /* ofxUICanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUICanvas.h; sourceTree = "<group>"; };
+		D9D7679815F70CD9009B4CF0 /* ofxUICircleSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUICircleSlider.h; sourceTree = "<group>"; };
+		D9D7679915F70CD9009B4CF0 /* ofxUIDropDownList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIDropDownList.h; sourceTree = "<group>"; };
+		D9D7679A15F70CD9009B4CF0 /* ofxUIEventArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIEventArgs.h; sourceTree = "<group>"; };
+		D9D7679B15F70CD9009B4CF0 /* ofxUIFPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIFPS.h; sourceTree = "<group>"; };
+		D9D7679C15F70CD9009B4CF0 /* ofxUIFPSSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIFPSSlider.h; sourceTree = "<group>"; };
+		D9D7679D15F70CD9009B4CF0 /* ofxUIImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIImage.h; sourceTree = "<group>"; };
+		D9D7679E15F70CD9009B4CF0 /* ofxUIImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIImageButton.h; sourceTree = "<group>"; };
+		D9D7679F15F70CD9009B4CF0 /* ofxUIImageSampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIImageSampler.h; sourceTree = "<group>"; };
+		D9D767A015F70CD9009B4CF0 /* ofxUIImageToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIImageToggle.h; sourceTree = "<group>"; };
+		D9D767A115F70CD9009B4CF0 /* ofxUILabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUILabel.h; sourceTree = "<group>"; };
+		D9D767A215F70CD9009B4CF0 /* ofxUILabelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUILabelButton.h; sourceTree = "<group>"; };
+		D9D767A315F70CD9009B4CF0 /* ofxUILabelToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUILabelToggle.h; sourceTree = "<group>"; };
+		D9D767A415F70CD9009B4CF0 /* ofxUIMinimalSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIMinimalSlider.h; sourceTree = "<group>"; };
+		D9D767A515F70CD9009B4CF0 /* ofxUIMovingGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIMovingGraph.h; sourceTree = "<group>"; };
+		D9D767A615F70CD9009B4CF0 /* ofxUINumberDialer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUINumberDialer.h; sourceTree = "<group>"; };
+		D9D767A715F70CD9009B4CF0 /* ofxUIRadio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIRadio.h; sourceTree = "<group>"; };
+		D9D767A815F70CD9009B4CF0 /* ofxUIRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIRangeSlider.h; sourceTree = "<group>"; };
+		D9D767A915F70CD9009B4CF0 /* ofxUIRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIRectangle.h; sourceTree = "<group>"; };
+		D9D767AA15F70CD9009B4CF0 /* ofxUIRotarySlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIRotarySlider.h; sourceTree = "<group>"; };
+		D9D767AB15F70CD9009B4CF0 /* ofxUIScrollableCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIScrollableCanvas.h; sourceTree = "<group>"; };
+		D9D767AC15F70CD9009B4CF0 /* ofxUISlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUISlider.h; sourceTree = "<group>"; };
+		D9D767AD15F70CD9009B4CF0 /* ofxUISpacer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUISpacer.h; sourceTree = "<group>"; };
+		D9D767AE15F70CD9009B4CF0 /* ofxUISpectrum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUISpectrum.h; sourceTree = "<group>"; };
+		D9D767AF15F70CD9009B4CF0 /* ofxUITextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUITextInput.h; sourceTree = "<group>"; };
+		D9D767B015F70CD9009B4CF0 /* ofxUIToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIToggle.h; sourceTree = "<group>"; };
+		D9D767B115F70CD9009B4CF0 /* ofxUIToggleMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIToggleMatrix.h; sourceTree = "<group>"; };
+		D9D767B215F70CD9009B4CF0 /* ofxUIWaveform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIWaveform.h; sourceTree = "<group>"; };
+		D9D767B315F70CD9009B4CF0 /* ofxUIWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIWidget.h; sourceTree = "<group>"; };
+		D9D767B415F70CD9009B4CF0 /* ofxUIWidgetWithLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIWidgetWithLabel.h; sourceTree = "<group>"; };
 		D9F0A5CB15A9EAE50020A125 /* Instructions.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Instructions.txt; sourceTree = "<group>"; };
 		D9F0A5DE15A9EAE50020A125 /* fftw3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fftw3.h; sourceTree = "<group>"; };
 		D9F0A5E115A9EAE50020A125 /* libfftw3f-3.dll */ = {isa = PBXFileReference; lastKnownFileType = file; path = "libfftw3f-3.dll"; sourceTree = "<group>"; };
@@ -200,6 +236,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				D9D7668E15F70CD9009B4CF0 /* ofxUI */,
 				D9F0A5C915A9EAE50020A125 /* ofxFft */,
 				D9F0A5EF15A9EAE50020A125 /* ofxMSAInteractiveObject */,
 				D9F0A5FE15A9EAE50020A125 /* ofxSimpleGuiToo */,
@@ -233,6 +270,58 @@
 				BBAB23BE13894E4700AA2426 /* GLUT.framework */,
 			);
 			name = "3rd party frameworks";
+			sourceTree = "<group>";
+		};
+		D9D7668E15F70CD9009B4CF0 /* ofxUI */ = {
+			isa = PBXGroup;
+			children = (
+				D9D7668F15F70CD9009B4CF0 /* .gitignore */,
+				D9D7679115F70CD9009B4CF0 /* README */,
+				D9D7679215F70CD9009B4CF0 /* src */,
+			);
+			name = ofxUI;
+			path = ../../../addons/ofxUI;
+			sourceTree = "<group>";
+		};
+		D9D7679215F70CD9009B4CF0 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				D9D7679315F70CD9009B4CF0 /* ofxUI.h */,
+				D9D7679415F70CD9009B4CF0 /* ofxUI2DPad.h */,
+				D9D7679515F70CD9009B4CF0 /* ofxUIBiLabelSlider.h */,
+				D9D7679615F70CD9009B4CF0 /* ofxUIButton.h */,
+				D9D7679715F70CD9009B4CF0 /* ofxUICanvas.h */,
+				D9D7679815F70CD9009B4CF0 /* ofxUICircleSlider.h */,
+				D9D7679915F70CD9009B4CF0 /* ofxUIDropDownList.h */,
+				D9D7679A15F70CD9009B4CF0 /* ofxUIEventArgs.h */,
+				D9D7679B15F70CD9009B4CF0 /* ofxUIFPS.h */,
+				D9D7679C15F70CD9009B4CF0 /* ofxUIFPSSlider.h */,
+				D9D7679D15F70CD9009B4CF0 /* ofxUIImage.h */,
+				D9D7679E15F70CD9009B4CF0 /* ofxUIImageButton.h */,
+				D9D7679F15F70CD9009B4CF0 /* ofxUIImageSampler.h */,
+				D9D767A015F70CD9009B4CF0 /* ofxUIImageToggle.h */,
+				D9D767A115F70CD9009B4CF0 /* ofxUILabel.h */,
+				D9D767A215F70CD9009B4CF0 /* ofxUILabelButton.h */,
+				D9D767A315F70CD9009B4CF0 /* ofxUILabelToggle.h */,
+				D9D767A415F70CD9009B4CF0 /* ofxUIMinimalSlider.h */,
+				D9D767A515F70CD9009B4CF0 /* ofxUIMovingGraph.h */,
+				D9D767A615F70CD9009B4CF0 /* ofxUINumberDialer.h */,
+				D9D767A715F70CD9009B4CF0 /* ofxUIRadio.h */,
+				D9D767A815F70CD9009B4CF0 /* ofxUIRangeSlider.h */,
+				D9D767A915F70CD9009B4CF0 /* ofxUIRectangle.h */,
+				D9D767AA15F70CD9009B4CF0 /* ofxUIRotarySlider.h */,
+				D9D767AB15F70CD9009B4CF0 /* ofxUIScrollableCanvas.h */,
+				D9D767AC15F70CD9009B4CF0 /* ofxUISlider.h */,
+				D9D767AD15F70CD9009B4CF0 /* ofxUISpacer.h */,
+				D9D767AE15F70CD9009B4CF0 /* ofxUISpectrum.h */,
+				D9D767AF15F70CD9009B4CF0 /* ofxUITextInput.h */,
+				D9D767B015F70CD9009B4CF0 /* ofxUIToggle.h */,
+				D9D767B115F70CD9009B4CF0 /* ofxUIToggleMatrix.h */,
+				D9D767B215F70CD9009B4CF0 /* ofxUIWaveform.h */,
+				D9D767B315F70CD9009B4CF0 /* ofxUIWidget.h */,
+				D9D767B415F70CD9009B4CF0 /* ofxUIWidgetWithLabel.h */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		D9F0A5C915A9EAE50020A125 /* ofxFft */ = {
