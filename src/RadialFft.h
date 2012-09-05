@@ -3,6 +3,7 @@
 
 #include "FftRange.h"
 #include "RadialBar.h"
+#include "Tweenzor.h"
 
 class RadialFft
 {
@@ -30,6 +31,8 @@ class RadialFft
         float saturation ;
         float brightness ;
     
+        float hueFftMultiplier ;
+    
         float amplitudeMultiplier ;
     
         float noiseTimeMultiplier ;
@@ -54,11 +57,14 @@ class RadialFft
 
         ofVec2f position ;
     
-    float hueFftMultiplier ;
+   
     
         float lastAmplitude ;
         float amplitudeDiffMultiplier ;
-        float ampltiudeDiff ; 
+        float ampltiudeDiff ;
+    
+        float interpolatedMeanAmplitude ;
+        float interpolateTime ; 
 
 
     protected:

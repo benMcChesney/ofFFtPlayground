@@ -14,6 +14,7 @@
 #include "FftRange.h"
 #include "RadialFft.h"
 #include "ofxUI.h"
+#include "Tweenzor.h"
 
 #define MIC 0
 #define NOISE 1
@@ -57,4 +58,9 @@ public:
     bool bGuiEnabled ; 
 
     float amplitudeScale ;
+    
+    
+    ofShader shader;
+    ofImage image1 ;
+    ofFbo fbo1 ;
 };

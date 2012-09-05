@@ -86,6 +86,10 @@ void RadialFft::update( float * amplitudes )
     //Get the Mean, useful if you want a single value to change an animation
     meanAmplitude = sumAmplitude / ( float ) range.numIndicies ;
     
+    
+    
+
+    Tweenzor::add( &interpolatedMeanAmplitude , interpolatedMeanAmplitude , meanAmplitude , 0.0f , interpolateTime , EASE_OUT_QUAD ) ;
     ampltiudeDiff = meanAmplitude - lastAmplitude ;
     //cout << "amplitude diff : " << ampltiudeDiff << endl ;
     lastAmplitude = meanAmplitude ;

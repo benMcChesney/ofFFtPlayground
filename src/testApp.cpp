@@ -5,6 +5,9 @@
 
 void testApp::setup()
 {
+    Tweenzor::init( ) ; 
+    ofSetVerticalSync(false);
+
 	plotHeight = 45;
 	bufferSize = 512;
 
@@ -50,28 +53,26 @@ void testApp::setup()
    // }
 
     /*
-     This uses Memo Akten's ( https://github.com/memo , http://memo.tv )  ofxSimpleGuiToo
+     This uses Reza Alli's ofxUI 
      I really like how easy it is to use and that it automatically saves all the values to an XML file
-     
-     Below we create a GUI tool page for each of our visulizers so we can tweak parameters
+     Below we create a GUI canvas for each of our visulizers so we can tweak parameters
     */
     
     
     //for ( int i = 0 ; i < visuals.size() ; i++ )
    // {
-    //ofxUICanvas *fftGUI;
-//	void fftGUIEvent(ofxUIEventArgs &e) ;
-    float dim = 24;
-	float xInit = OFX_UI_GLOBAL_WIDGET_SPACING;
-    float length = 250-xInit;
+
+        float dim = 24;
+        float xInit = OFX_UI_GLOBAL_WIDGET_SPACING;
+        float length = 250-xInit;
     
         fftGUI = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());
         
         fftGUI->addWidgetDown(new ofxUILabel("FFT PARAMS", OFX_UI_FONT_LARGE));
         //fftGUI->addRangeSlider("RED", 0.0, 1 , len -1 , 0 , len , length-xInit,dim);
     
-    ////gui.addSlider ( string title , float targetFloat , float minValue, float maxValue ) ;
-    //    fftGUI->addWidgetDown(new ofxUIRangeSlider(length-xInit,dim, 0.0, len-2 , 0 , len-1 , "MAX RANGE"));
+        ////gui.addSlider ( string title , float targetFloat , float minValue, float maxValue ) ;
+        //    fftGUI->addWidgetDown(new ofxUIRangeSlider(length-xInit,dim, 0.0, len-2 , 0 , len-1 , "MAX RANGE"));
         fftGUI->addWidgetRight(new ofxUIRangeSlider(length-xInit,dim, 0.0, len-2 , 0 , len-1 , "FFT RANGE"));
         fftGUI->addWidgetRight(new ofxUISlider(length-xInit,dim , 0.0f , 450.0f , radialFft.globalCenterOffset , "CENTER OFFSET" ) ) ;
         fftGUI->addWidgetDown(new ofxUISlider(length-xInit,dim , 1.0f , 1200.0f , radialFft.globalExtrusion , "GLOBAL EXTRUSION" ) ) ;
@@ -80,8 +81,8 @@ void testApp::setup()
     
         fftGUI->addWidgetDown(new ofxUI2DPad(length-xInit,120, ofPoint( 0 , ofGetWidth() ) , ofPoint ( 0 , ofGetHeight() )  , radialFft.position  , "X + Y"));
    
-        fftGUI->addWidgetRight(new ofxUIToggle( 150 , 50 , radialFft.doFill , "DRAW FILL" ) ) ;
-        fftGUI->addWidgetRight(new ofxUIToggle( 150 , 50 , radialFft.drawBothSides , "DRAW BOTH SIDES" ) ) ;
+        fftGUI->addWidgetRight(new ofxUIToggle( 60 , 50 , radialFft.doFill , "DRAW FILL" ) ) ;
+        fftGUI->addWidgetDown(new ofxUIToggle( 60 , 50 , radialFft.drawBothSides , "DRAW BOTH SIDES" ) ) ;
     
         fftGUI->addWidgetDown(new ofxUISlider(length-xInit,dim , 0.1f , 15.0f , radialFft.noiseTimeMultiplier , "NOISE TIME MULTIPLIER" ) ) ;
         fftGUI->addWidgetDown(new ofxUISlider(length-xInit,dim , 0.0f , 400.0f , radialFft.noiseStrength , "NOISE STRENGTH" ) ) ;
@@ -99,6 +100,10 @@ void testApp::setup()
         fftGUI->addWidgetDown(new ofxUISlider(length-xInit,dim , 0.0f , 255.0f , clearAlpha , "CLEAR ALPHA" ) ) ;
         fftGUI->addWidgetRight(new ofxUISlider(length-xInit,dim , 0.0f , 1000.0f , amplitudeScale , "GLOBAL AMPLITUDE SCALE" ) ) ;
 
+        fftGUI->addWidgetDown(new ofxUISlider(length-xInit,dim , 0.0f , 0.5f , radialFft.interpolateTime , "INTERPOLATE TIME" ) ) ;
+    
+   // float interpolatedMeanAmplitude ;
+    //float interpolateTime ;
     
     /*
     
@@ -122,13 +127,29 @@ void testApp::setup()
         fftGUI->loadSettings( "GUI/FFT_0.xml") ;
     
 
+    //we load a font and tell OF to make outlines so we can draw it as GL shapes rather than textures
+    shader.load("shaders/fragFun.vert", "shaders/tunnel.frag");
+    
+    image1.loadImage( "shaders/text2.jpg" ) ;
+    fbo1.allocate( image1.width , image1.height ) ;
+    
     ofSetFrameRate( 60 ) ;
     ofSetCircleResolution( 180 ) ;
     
     screenFbo.allocate(ofGetWidth(), ofGetHeight() , GL_RGBA ) ;
     screenFbo.begin() ;
     ofClear( 1 , 1 , 1 , 0 ) ;
-    screenFbo.end() ; 
+    screenFbo.end() ;
+    
+    
+    //we load a font and tell OF to make outlines so we can draw it as GL shapes rather than textures
+    shader.load("shaders/fragFun.vert", "shaders/tunnel.frag");
+    image1.loadImage( "shaders/tex1.jpg" ) ;
+    fbo1.allocate( image1.width , image1.height ) ;
+    
+    ofSetVerticalSync( true ) ;
+    
+    
 }
 
 void testApp::fftGUIEvent(ofxUIEventArgs &e)
@@ -258,6 +279,18 @@ void testApp::fftGUIEvent(ofxUIEventArgs &e)
         ofxUISlider *slider = (ofxUISlider *) e.widget;
         amplitudeScale = slider->getScaledValue() ; 
     }
+    
+    
+    if ( name == "INTERPOLATE TIME"  )
+    {
+        ofxUISlider *slider = (ofxUISlider *) e.widget;
+         radialFft.interpolateTime = slider->getScaledValue() ;
+    }
+    
+    /*
+     fftGUI->addWidgetDown(new ofxUISlider(length-xInit,dim , 0.0f , 0.5f , radialFft.interpolateTime , "INTERPOLATE TIME" ) ) ;
+    
+     */
 
     fftGUI->saveSettings("GUI/FFT_0.xml" ) ;
 }
@@ -265,6 +298,8 @@ void testApp::fftGUIEvent(ofxUIEventArgs &e)
 
 void testApp::update()
 {
+    
+    Tweenzor::update( ofGetElapsedTimeMillis() ) ; 
     //Get amplitudes and pass them on to visuals
     float * amplitudes = fft->getAmplitude() ;
 
@@ -287,13 +322,73 @@ void testApp::draw()
      
 	
     
+	fbo1.begin( ) ;
+    image1.draw ( 0 , 0 ) ;
+    fbo1.end( ) ;
+    
+    ofTexture tex1 = image1.getTextureReference();
+    
+  //  ofSetFrameRate( 60 ) ;
+   // ofSetVerticalSync( true ) ;
+    
+	ofSetColor(245, 58, 135);
+	ofFill();
 	
+	//if( doShader ){
+		shader.begin();
+        //we want to pass in some varrying values to animate our type / color
+        //shader.setUniform1f("timeValX", ofGetElapsedTimef() * 0.1 );
+        //shader.setUniform1f("timeValY", -ofGetElapsedTimef() * 0.18 );
+        
+        //we also pass in the mouse position
+        //we have to transform the coords to what the shader is expecting which is 0,0 in the center and y axis flipped.
+        
+        // so here is the trick, important one:
+        // tex1 is the texture from fbo1.
+        // we assign this to texture 0 , i.e. "textBase" in the shader.
+        // this is as drawing into the fbo  image1. (from shader point of view)
+        // so instead of making :
+        // fbo2.draw(0,0) after shader parameters we make this line:
+        shader.setUniformTexture("texBase",   tex1, 0 ); //look that is number 0: and
+        // textures 0 are the ones used do "draw".
+        // so we could do this making fbo1.draw.
+        
+        
+        
+        ofMap( mouseX , 0.0f , ofGetWidth() , 0.0f , 1.0f ) ;
+        //shader.setUniform2f("mouse", ofMap( mouseX , 0.0f , ofGetWidth() , 0.0f , 1.0f ) ,
+        //                             ofMap( mouseY , 0.0f , ofGetHeight() , 0.0f , 1.0f ) );
+        shader.setUniform1f("time", ofGetElapsedTimef() );
+        shader.setUniform2f("resolution", ofGetWidth() , ofGetHeight() ) ;
+    
+        float diff = radialFft.amplitudeDiffMultiplier * radialFft.interpolatedMeanAmplitude  ;
+        
+        shader.setUniform1f("soundOffset" ,diff ) ;
+    
+        ofColor hueColor = radialFft.color ;
+        shader.setUniform1f( "red" , hueColor.r / 255.0f ) ;
+        shader.setUniform1f( "green" , hueColor.g / 255.0f ) ;
+        shader.setUniform1f( "blue" , hueColor.b / 255.0f ) ;
+
+        
+//	}
+	
+    ofSetColor( 255 , 255 , 255 ) ;
+    ofRect( 0 , 0 , ofGetWidth() , ofGetHeight() ) ;
+	
+	///if( doShader ){
+		shader.end();
+	//}
+
+    
+    
+    //return ;
 
     
     ofEnableAlphaBlending() ;
-    screenFbo.begin() ;
-    ofSetColor( 0 ,  0, 0 , clearAlpha ) ;
-    ofRect( 0 , 0, ofGetWidth() , ofGetHeight() ) ;
+   // screenFbo.begin() ;
+   // ofSetColor( 0 ,  0, 0 , clearAlpha ) ;
+   // ofRect( 0 , 0, ofGetWidth() , ofGetHeight() ) ;
      ofSetColor ( 255.0f , 255.0f , 255.0f ) ;
 
     ofEnableSmoothing() ;
@@ -301,18 +396,20 @@ void testApp::draw()
    // for ( int i = 0 ; i < visuals.size() ; i++ )
    // {
    //     visuals[i].draw( ) ;
-    radialFft.draw( ) ; 
    // }
 
-    screenFbo.end() ;
+   // screenFbo.end() ;
     
-    ofSetColor( 255 , 255  ,255 ) ; 
-    screenFbo.draw( 0 , 0 ) ;
+    //ofSetColor( 255 , 255  ,255 , clearAlpha ) ;
+    //screenFbo.draw( 0 , 0 ) ;
    
-    
+            
     if ( bGuiEnabled == true )
     {
         ofSetColor ( 255 , 255 , 255 )  ;
+        
+        radialFft.draw( ) ; 
+        
         //gui.draw() ;
         ofPushMatrix() ;
         ofTranslate( 15 , ofGetHeight() +- 75 ) ;
@@ -421,15 +518,11 @@ void testApp::keyPressed(int key) {
             
         case 'g':
         {
-            bGuiEnabled = false ; 
+            //bGuiEnabled = false ;
             
             fftGUI->toggleVisible();
-            
-            if ( fftGUI->isVisible() == true )
-            {
-                bGuiEnabled = true ;
-            }
-          //  bGuiEnabled = fftGUI->isVisible() ;
+            bGuiEnabled = fftGUI->isVisible() ;
+           
         }
             break;
             
